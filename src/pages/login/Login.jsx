@@ -20,9 +20,11 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { useLoginMutation } from "@/redux/services/authApi";
 
 export const Login = () => {
   const [viewPassword, setViewPassword] = useState(false);
+  const [onLogin, { isLoading }] = useLoginMutation();
   const { toast } = useToast();
   const navigator = useNavigate();
 
@@ -34,36 +36,55 @@ export const Login = () => {
   });
 
   const handleToast = (res) => {
-    if (res?.success) {
+    if (res?.status) {
       toast({
         variant: "default",
         title: "Success",
-        description: res.msg || "Account Logged In Successfully",
+        description: res?.status_message || "Logged in successfully",
       });
-      navigator("/");
+      //   navigator("/login");
     } else {
       toast({
         variant: "destructive",
         title: "Error",
-        description: res?.msg || "Failed to login account",
+        description: res?.status_message || "Failed to login account",
       });
     }
   };
 
   const onSubmit = async (data) => {
-    // try {
-    //   const res = await onLogin({
-    //     email: data?.email,
-    //     password: data?.password,
-    //   }).unwrap();
-    //   handleToast(res);
-    // } catch (err) {
-    //   console.error(err);
-    //   handleToast({
-    //     success: false,
-    //     msg: err?.data?.message || "An error occurred",
-    //   });
-    // }
+    //example: {"email":"naim.microdeft@gmail.com","password": "12345678"}
+    /*
+        Example success response:
+        {
+            "status": true,
+            "status_message": "Success! Login successful.",
+            "data": {
+                "token": "351|UZO0C4FOpLnZWS29sW3NRRgEFHrFB4vL1C3comaf4a0725d1",
+                "user": {
+                    "id": 130,
+                    "name": "Najim",
+                    "email": "user@japalearn.com"
+                }
+            },
+            "status_code": 200,
+            "status_class": "success"
+        }
+    */
+    try {
+      const res = await onLogin({
+        email: data?.email,
+        password: data?.password,
+      }).unwrap();
+      handleToast(res);
+    } catch (err) {
+      console.error(err);
+      handleToast({
+        status: false,
+        status_message:
+          err?.data?.message || err.message || "An error occurred",
+      });
+    }
   };
 
   return (
@@ -137,8 +158,8 @@ export const Login = () => {
                   )}
                 />
 
-                <Button disabled={false} type="submit" className="w-full">
-                  {false ? "Loading..." : "Login"}
+                <Button disabled={isLoading} type="submit" className="w-full">
+                  {isLoading ? "Loading..." : "Login"}
                 </Button>
               </form>
             </Form>

@@ -1,3 +1,4 @@
+import { loginFailure, loginStart, loginSuccess } from "../slices/authSlice";
 import { baseApi } from "./baseApi";
 
 export const authApi = baseApi.injectEndpoints({
@@ -6,8 +7,20 @@ export const authApi = baseApi.injectEndpoints({
       query: (credentials) => ({
         url: "/login",
         method: "POST",
-        body: credentials,
+        body: credentials, //example: {"email":"naim.microdeft@gmail.com","password": "12345678"}
       }),
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          dispatch(loginStart());
+          const { data } = await queryFulfilled;
+          data.status
+            ? dispatch(loginSuccess(data))
+            : dispatch(loginFailure(data));
+        } catch (error) {
+          dispatch(loginFailure(error.message));
+          console.error("Login Error:", error);
+        }
+      },
     }),
     register: builder.mutation({
       query: (userData) => ({
