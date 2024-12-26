@@ -1,5 +1,5 @@
 import { FaRegEye, FaEyeSlash } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import {
@@ -21,12 +21,14 @@ import {
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { useLoginMutation } from "@/redux/services/authApi";
+import { useSelector } from "react-redux";
 
 export const Login = () => {
   const [viewPassword, setViewPassword] = useState(false);
   const [onLogin, { isLoading }] = useLoginMutation();
   const { toast } = useToast();
   const navigator = useNavigate();
+  const authState = useSelector((state) => state.auth);
 
   const form = useForm({
     defaultValues: {
@@ -34,7 +36,9 @@ export const Login = () => {
       password: "",
     },
   });
-
+  if (authState?.token) {
+    return <Navigate to="/" />;
+  }
   const handleToast = (res) => {
     if (res?.status) {
       toast({

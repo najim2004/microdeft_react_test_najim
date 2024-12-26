@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaEyeSlash, FaRegEye } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import {
   Form,
   FormControl,
@@ -21,13 +21,14 @@ import {
 } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { useRegisterMutation } from "@/redux/services/authApi";
+import { useSelector } from "react-redux";
 
 export const Signup = () => {
   const [viewPassword, setViewPassword] = useState(false);
   const { toast } = useToast();
   const navigator = useNavigate();
   const [onSignup, { isLoading }] = useRegisterMutation();
-
+  const authState = useSelector((state) => state.auth);
   const form = useForm({
     defaultValues: {
       fullName: "",
@@ -35,7 +36,9 @@ export const Signup = () => {
       password: "",
     },
   });
-
+  if (authState?.token) {
+    return <Navigate to="/" />;
+  }
   const handleToast = (res) => {
     if (res?.status) {
       toast({
