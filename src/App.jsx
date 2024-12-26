@@ -6,7 +6,9 @@ export const App = () => {
   return (
     <div>
       <Navbar />
-      <Outlet />
+      <div className="min-h-[calc(100vh-382px)]">
+        <Outlet />
+      </div>
       <Footer />
     </div>
   );
