@@ -42,7 +42,7 @@ export const Login = () => {
         title: "Success",
         description: res?.status_message || "Logged in successfully",
       });
-      //   navigator("/login");
+      navigator("/");
     } else {
       toast({
         variant: "destructive",

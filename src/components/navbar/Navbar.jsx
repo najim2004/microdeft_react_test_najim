@@ -24,32 +24,21 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "@/redux/slices/authSlice";
 
 const Navbar = ({ isAdmin }) => {
-  const a = false;
+  const authState = useSelector((state) => state.auth);
+  const dispatcher = useDispatch();
+
   const NavLinks = () => (
     <div className="flex flex-col md:flex-row gap-4">
-      {a ? (
+      {authState?.token ? (
         <>
-          {!isAdmin && (
-            <>
-              <Link
-                to="/lessons"
-                className="flex items-center gap-2 p-2 hover:bg-accent hover:text-accent-foreground rounded"
-              >
-                <BookOpen size={20} />
-                Lessons
-              </Link>
-
-              <Link
-                to="/tutorials"
-                className="flex items-center gap-2 p-2 hover:bg-accent hover:text-accent-foreground rounded"
-              >
-                <Video size={20} />
-                Tutorials
-              </Link>
-            </>
-          )}
+          <Button variant="ghost" className="flex items-center gap-2">
+            <Video size={20} />
+            Add Course
+          </Button>
         </>
       ) : (
         <>
@@ -108,7 +97,7 @@ const Navbar = ({ isAdmin }) => {
           <div className="hidden md:flex items-center space-x-4">
             <NavLinks />
           </div>
-          {a && (
+          {authState?.token && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
@@ -117,26 +106,29 @@ const Navbar = ({ isAdmin }) => {
                 >
                   <Avatar className="size-10">
                     <AvatarImage src={""} alt="user avatar" />
-                    <AvatarFallback>{"?"}</AvatarFallback>
+                    <AvatarFallback>
+                      {authState?.user?.name[0] || "?"}
+                    </AvatarFallback>
                   </Avatar>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56" align="end" forceMount>
                 <DropdownMenuLabel className="font-normal">
                   <div className="flex flex-col space-y-1 text-center">
-                    <p className="text-sm font-medium">user name</p>
-                    <p className="text-xs text-muted-foreground">user email</p>
+                    <p className="text-sm font-medium">
+                      {authState?.user?.name || "user name"}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      {authState.user?.email || "user email"}
+                    </p>
                   </div>
                 </DropdownMenuLabel>
-                <DropdownMenuItem className="text-red-500">
+                <DropdownMenuItem
+                  onClick={() => dispatcher(logout())}
+                  className="text-red-500"
+                >
                   <LogOut className="mr-2 h-4 w-4" />
                   <span>Log out</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Link to="/dashboard" className="flex items-center gap-2">
-                    <LayoutDashboardIcon className="h-4 w-4" />
-                    <span>Dashboard</span>
-                  </Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

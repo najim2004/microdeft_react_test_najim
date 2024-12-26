@@ -1,4 +1,4 @@
-import { loginFailure, loginStart, loginSuccess } from "../slices/authSlice";
+import { loginFailure, loginSuccess } from "../slices/authSlice";
 import { baseApi } from "./baseApi";
 
 export const authApi = baseApi.injectEndpoints({
@@ -11,13 +11,22 @@ export const authApi = baseApi.injectEndpoints({
       }),
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         try {
-          dispatch(loginStart());
-          const { data } = await queryFulfilled;
-          data.status
-            ? dispatch(loginSuccess(data))
-            : dispatch(loginFailure(data));
+          const { data: res } = await queryFulfilled;
+          if (res?.data?.token && res?.status && res?.data?.user) {
+            localStorage.setItem(
+              "auth",
+              JSON.stringify({
+                user: {
+                  name: res?.data?.user?.name,
+                  email: res.data?.user?.email,
+                },
+                token: res?.data?.token,
+              })
+            );
+          }
+          res?.status ? dispatch(loginSuccess(res)) : dispatch(loginFailure());
         } catch (error) {
-          dispatch(loginFailure(error.message));
+          dispatch(loginFailure());
           console.error("Login Error:", error);
         }
       },
@@ -27,12 +36,6 @@ export const authApi = baseApi.injectEndpoints({
         url: "/register",
         method: "POST",
         body: userData, // example:{"name":"Naimul Hasan","email":"naim.microdeft@gmail.com","password": "12345678"}
-      }),
-    }),
-    logout: builder.mutation({
-      query: () => ({
-        url: "/logout",
-        method: "POST",
       }),
     }),
   }),
