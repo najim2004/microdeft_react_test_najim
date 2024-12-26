@@ -20,14 +20,13 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
+import { useRegisterMutation } from "@/redux/services/authApi";
 
 export const Signup = () => {
   const [viewPassword, setViewPassword] = useState(false);
-  const [fileName, setFileName] = useState("");
   const { toast } = useToast();
   const navigator = useNavigate();
-  //   const [onSignup, { isLoading }] = useCreateUserMutation();
-  const isLoading = false;
+  const [onSignup, { isLoading }] = useRegisterMutation();
 
   const form = useForm({
     defaultValues: {
@@ -38,57 +37,60 @@ export const Signup = () => {
   });
 
   const handleToast = (res) => {
-    if (res?.success) {
+    if (res?.status) {
       toast({
         variant: "default",
         title: "Success",
-        description: res.msg || "Account created successfully",
+        description: res.status_message || "Account created successfully",
       });
       navigator("/login");
     } else {
       toast({
         variant: "destructive",
         title: "Error",
-        description: res?.msg || "Failed to create account",
+        description: res.status_message || "Failed to create account",
       });
     }
   };
 
   const onSubmit = async (data) => {
-    // try {
-    //   const imageFile = data.photo;
-    //   const formImage = await formatData(imageFile);
-    //   const response = await onSignup({
-    //     name: data.fullName,
-    //     email: data.email,
-    //     password: data.password,
-    //     photo: formImage,
-    //   }).unwrap();
-    //   handleToast(response);
-    // } catch (err) {
-    //   handleToast({
-    //     success: false,
-    //     msg: err?.data?.message || "An error occurred",
-    //   });
-    // }
+    // example:{"name":"Naimul Hasan","email":"naim.microdeft@gmail.com","password": "12345678"}
+    try {
+      const response = await onSignup({
+        name: data?.fullName,
+        email: data?.email,
+        password: data?.password,
+      }).unwrap();
+      /*
+      success response example:
+        {
+            "status": true,
+            "status_message": "Success! Registration successful.",
+            "data": {
+                "token": "338|Yg8uUk9ecqX8FjR0yQOsB5nJMyVUXGPvi1dg6eSffe3f7ffd",
+                "user": {
+                    "id": 130,
+                    "name": "Najim",
+                    "email": "user@japalearn.com"
+                }
+            },
+            "status_code": 200,
+            "status_class": "success"
+        }
+      */
+      handleToast(response);
+    } catch (err) {
+      handleToast({
+        status: false,
+        status_message:
+          err?.data?.message || err.message || "An error occurred",
+      });
+    }
   };
 
   const togglePasswordView = () => {
     setViewPassword(!viewPassword);
   };
-
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const formattedName =
-        file.name.length > 15
-          ? `${file.name.slice(0, 15)}...${file.name.slice(-3)}`
-          : file.name;
-      setFileName(formattedName);
-      form.setValue("photo", file);
-    }
-  };
-
   return (
     <div className="bg-white w-full min-h-[calc(100vh-64px)] flex flex-col">
       <div className="flex flex-col items-center justify-center p-4 w-full flex-grow">
