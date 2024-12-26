@@ -1,25 +1,16 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import React, { Suspense } from "react";
-
-// Lazy load components for better performance
-const Home = React.lazy(() => import("../pages/Home"));
-const About = React.lazy(() => import("../pages/About"));
-const NotFound = React.lazy(() => import("../pages/NotFound"));
-
-// Loading fallback component
-const LoadingFallback = () => <div className="loading-spinner">Loading...</div>;
+import { Routes, Route } from "react-router-dom";
+import { App } from "../App";
+import { Home } from "../pages/home/Home";
 
 const AppRouter = () => {
   return (
-    <BrowserRouter>
-      <Suspense fallback={<LoadingFallback />}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </Suspense>
-    </BrowserRouter>
+    <Routes>
+      {/* Set the App component as the wrapper route */}
+      <Route path="/" element={<App />}>
+        {/* Set the Home component inside the "/" path */}
+        <Route index element={<Home />} />
+      </Route>
+    </Routes>
   );
 };
 
