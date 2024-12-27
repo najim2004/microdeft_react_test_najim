@@ -4,7 +4,7 @@
 A modern React.js application developed as a technical assessment project, demonstrating best practices in frontend development and state management.
 
 ## Live Demo
-Experience the application in action: [Live Demo](https://microdeft-react-test.vercel.app/)
+Experience the application in action: [Live Demo](https://reactacademy.vercel.app)
 
 ## Getting Started
 
