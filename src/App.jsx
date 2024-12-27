@@ -8,8 +8,8 @@ import { useGetAllCoursesQuery } from "./redux/services/courseApi";
 
 export const App = () => {
   const dispatcher = useDispatch();
-  useGetAllCoursesQuery();
   const auth = useSelector((state) => state.auth);
+  useGetAllCoursesQuery(null, { skip: !auth?.token });
   useEffect(() => {
     if (localStorage.getItem("auth") && !auth?.token) {
       dispatcher(

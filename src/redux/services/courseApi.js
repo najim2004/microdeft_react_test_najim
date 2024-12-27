@@ -21,7 +21,7 @@ export const courseApi = baseApi.injectEndpoints({
           dispatch(
             setError(
               error?.message ||
-                "An error occurred! Please login and reload the page!."
+                "An error occurred! Please login and reload the page! Because authentication token need."
             )
           );
           console.error("Course fetch error:", error);
