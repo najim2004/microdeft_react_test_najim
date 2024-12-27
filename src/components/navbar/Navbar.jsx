@@ -27,6 +27,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/redux/slices/authSlice";
 import { AddCourse } from "../course/AddCourse";
+import { clearState } from "@/redux/slices/courseSlice";
 
 const Navbar = () => {
   const authState = useSelector((state) => state.auth);
@@ -122,7 +123,10 @@ const Navbar = () => {
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuItem
-                  onClick={() => dispatcher(logout())}
+                  onClick={() => {
+                    dispatcher(logout());
+                    dispatcher(clearState());
+                  }}
                   className="text-red-500"
                 >
                   <LogOut className="mr-2 h-4 w-4" />

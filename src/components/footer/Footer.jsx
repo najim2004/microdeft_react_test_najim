@@ -16,7 +16,7 @@ export const Footer = () => {
     <footer className="bg-secondary text-secondary-foreground mt-10">
       <div className="px-4 py-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
-          <div className="flex flex-col items-start">
+          <div className="flex flex-col md:items-start items-center text-center md:text-left">
             <h3 className="text-xl font-bold mb-4">
               <Link to="/" className="flex items-center gap-2">
                 <svg
@@ -83,12 +83,12 @@ export const Footer = () => {
           </div>
 
           {/* Social Media */}
-          <div className="flex flex-col items-end">
+          <div className="flex flex-col md:items-end">
             <div className="">
               <h4 className="font-semibold mb-4 text-center">
                 Connect With Us
               </h4>
-              <div className="flex space-x-4">
+              <div className="flex space-x-4 justify-center">
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>

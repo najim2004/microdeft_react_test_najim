@@ -4,9 +4,11 @@ import { Footer } from "./components/footer/Footer";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginSuccess } from "./redux/slices/authSlice";
+import { useGetAllCoursesQuery } from "./redux/services/courseApi";
 
 export const App = () => {
   const dispatcher = useDispatch();
+  useGetAllCoursesQuery();
   const auth = useSelector((state) => state.auth);
   useEffect(() => {
     if (localStorage.getItem("auth") && !auth?.token) {

@@ -30,6 +30,7 @@ export const authApi = baseApi.injectEndpoints({
           console.error("Login Error:", error);
         }
       },
+      invalidatesTags: ["Login"],
     }),
     register: builder.mutation({
       query: (userData) => ({

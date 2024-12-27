@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -34,6 +35,14 @@ export const CourseForm = ({ open, onSubmit, setOpen, isLoading }) => {
     </Dialog>
   );
 };
+
+CourseForm.propTypes = {
+  open: PropTypes.bool.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  setOpen: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+};
+
 const MainForm = ({ onSubmit, className, isLoading }) => {
   const defaultValues = {
     title: "",
@@ -139,4 +148,14 @@ const MainForm = ({ onSubmit, className, isLoading }) => {
       </form>
     </Form>
   );
+};
+
+MainForm.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+  className: PropTypes.string,
+  isLoading: PropTypes.bool.isRequired,
+};
+
+MainForm.defaultProps = {
+  className: "",
 };
