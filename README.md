@@ -1,15 +1,21 @@
 # Microdeft React Test
 
-## Live Demo
-[View Live Demo](https://microdeft-react-test.vercel.app/)
-
 ## Overview
-A React.js application built as a technical test project. This repository contains the source code and documentation for the project.
+A modern React.js application developed as a technical assessment project, demonstrating best practices in frontend development and state management.
 
-## Installation
+## Live Demo
+Experience the application in action: [Live Demo](https://microdeft-react-test.vercel.app/)
+
+## Getting Started
+
+### Prerequisites
+- Node.js (v14 or higher)
+- npm or yarn package manager
+
+### Installation
 ```bash
 # Clone the repository
-git clone [https://github.com/najim2004/microdeft_react_test_najim.git]
+git clone https://github.com/najim2004/microdeft_react_test_najim.git
 
 # Navigate to project directory
 cd microdeft_react_test
@@ -21,14 +27,15 @@ npm install
 npm start
 ```
 
-## Technologies Used
-- React.js
-- Tailwind CSS
-- Shadcn/ui
-- Redux Toolkit
-- RTK Query
-- React Router DOM
-- JavaScript
+## Tech Stack
+- **Frontend Framework:** React.js
+- **Styling:** Tailwind CSS, Shadcn/ui
+- **State Management:** Redux Toolkit, RTK Query
+- **Routing:** React Router DOM
+- **Language:** JavaScript
 
 ## License
-This project is licensed under the MIT License.
+This project is licensed under the [MIT License](LICENSE).
+
+## Contributing
+Contributions are welcome! Please feel free to submit a Pull Request.
