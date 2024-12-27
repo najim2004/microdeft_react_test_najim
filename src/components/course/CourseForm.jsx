@@ -23,7 +23,7 @@ import { Textarea } from "../ui/textarea";
 export const CourseForm = ({ open, onSubmit, setOpen, isLoading }) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="overflow-auto max-h-screen">
         <DialogHeader>
           <DialogTitle>Upload a new course</DialogTitle>
           <DialogDescription>

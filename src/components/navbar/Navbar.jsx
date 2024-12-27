@@ -137,13 +137,13 @@ const Navbar = () => {
           )}
           {/* Mobile Navigation */}
           <div className="md:hidden">
-            <Sheet>
-              <SheetTrigger asChild>
+            <Sheet className="md:hidden">
+              <SheetTrigger className="md:hidden" asChild>
                 <Button variant="outline" size="icon">
                   <Menu className="h-6 w-6" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right">
+              <SheetContent side="right" className="md:hidden">
                 <SheetHeader>
                   <SheetTitle>
                     <div className="flex items-center gap-2 font-bold">
